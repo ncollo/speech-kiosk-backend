@@ -1,0 +1,13 @@
+services:
+  speech-kiosk-backend:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - HOST=0.0.0.0
+      - PORT=8000
+      - ENVIRONMENT=development
+      - CORS_ORIGINS=http://localhost:5173,http://localhost:3000
+    volumes:
+      - .:/app
+    restart: unless-stopped

@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.core.config import settings
-from app.api.routes import sessions, symptoms, websocket
+from app.api.routes import sessions, symptoms, websocket, admin
 
 app = FastAPI(
     title=settings.APP_NAME,
@@ -22,6 +22,7 @@ app.add_middleware(
 app.include_router(sessions.router)
 app.include_router(symptoms.router)
 app.include_router(websocket.router)
+app.include_router(admin.router)
 
 @app.get("/api/health", tags=["System Health"])
 async def health_check():

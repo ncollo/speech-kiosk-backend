@@ -75,3 +75,32 @@ class WebSocketCaptionEvent(BaseModel):
     entry_id: Optional[str] = None
     symptom: Optional[SymptomItem] = None
     timestamp: str
+
+class ClinicianPinAuthRequest(BaseModel):
+    staff_id: str
+    pin: str
+    desk_number: Optional[str] = "Desk 1"
+
+class ClinicianPinAuthResponse(BaseModel):
+    success: bool
+    staff_id: str
+    staff_name: str
+    role: str
+    desk_number: str
+    session_token: str
+
+class KslVideoAsset(BaseModel):
+    symptom_id: str
+    title: str
+    signer_name: str
+    signer_consent_verified: bool
+    duration_seconds: int
+    video_url: str
+    last_updated: str
+
+class UsageMetricsResponse(BaseModel):
+    daily_intakes_count: int
+    avg_intake_duration_sec: int
+    ksl_prompt_opt_in_rate: int
+    avg_speech_latency_ms: int
+    zero_pii_compliant: bool

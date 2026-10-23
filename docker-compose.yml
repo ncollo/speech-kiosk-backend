@@ -1,13 +1,39 @@
-services:
+﻿services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: clearcaption-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: clearcaption_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgrespassword
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d clearcaption_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
   speech-kiosk-backend:
     build: .
+    container_name: clearcaption-backend
     ports:
       - "8000:8000"
     environment:
       - HOST=0.0.0.0
       - PORT=8000
       - ENVIRONMENT=development
-      - CORS_ORIGINS=http://localhost:5173,http://localhost:3000
+      - DATABASE_URL=postgresql://postgres:postgrespassword@postgres:5432/clearcaption_db
+      - CORS_ORIGINS=http://localhost:5173,http://localhost:3000,http://127.0.0.1:5173
     volumes:
       - .:/app
+    depends_on:
+      postgres:
+        condition: service_healthy
     restart: unless-stopped
+
+volumes:
+  postgres_data:

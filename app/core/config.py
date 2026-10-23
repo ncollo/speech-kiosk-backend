@@ -1,6 +1,5 @@
-from typing import List
+﻿from typing import List
 from pydantic_settings import BaseSettings
-from pydantic import Field
 
 class Settings(BaseSettings):
     APP_NAME: str = "ClearCaption Hospital Kiosk API"
@@ -13,6 +12,10 @@ class Settings(BaseSettings):
     # Facility defaults
     DEFAULT_FACILITY: str = "St. Mary's Medical Center"
     DEFAULT_DEPARTMENT: str = "Reception & Triage"
+    
+    # Database Settings (PostgreSQL with SQLite fallback for local test flexibility)
+    DATABASE_URL: str = "postgresql://postgres:postgrespassword@localhost:5432/clearcaption_db"
+    USE_SQLITE_FALLBACK: bool = True
     
     # Audio & Transcription settings
     AUDIO_SAMPLE_RATE: int = 16000
